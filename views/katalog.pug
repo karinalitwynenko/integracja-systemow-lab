@@ -1,0 +1,28 @@
+doctype html
+html(lang='pl')
+ head
+   title Integracja systemów
+   head
+        style
+            include ./style.css
+ body
+  - data = data
+  div(class = 'app-container')
+    button(onclick="location.href='katalog'" type = 'button') Importuj z pliku
+    if data !== undefined
+      button Eksportuj do pliku
+
+      table
+        each [key, value] of data.entries()
+          if key == 0
+            tr(class = 'header')
+              each item in value
+                th #{item}
+          else 
+            tr
+              each item in value
+                td #{item}
+
+  script
+      include katalog.js      
+

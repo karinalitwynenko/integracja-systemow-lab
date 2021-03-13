@@ -28,6 +28,7 @@ table {
     border-collapse: collapse;
     text-align: center;
     width: 100%;
+    table-layout: fixed;
 }
 
 tr {
@@ -44,7 +45,7 @@ tr:not([class = header]):hover {
 
 td {
     border: 1px solid rgb(168, 168, 168);
-    padding: 0.8vh 0; 
+    padding: 0.8vh 0;
 }
 
 th {

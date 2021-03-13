@@ -7,22 +7,23 @@ html(lang='pl')
             include ./style.css
  body
   - data = data
-  div(class = 'app-container')
-    button(onclick="location.href='katalog'" type = 'button') Importuj z pliku
-    if data !== undefined
-      button Eksportuj do pliku
+  div(class='app-container')
+    button(onclick="location.href='katalog'" type='button') Importuj z pliku
+    if data === undefined
+      p Dane zostaną wyświetlone po zaimportowaniu
+    else
+      button(onclick='save()') Eksportuj do pliku
 
-      table
+      table(id='katalog')
         each [key, value] of data.entries()
           if key == 0
-            tr(class = 'header')
+            tr(class='header')
               each item in value
                 th #{item}
-          else 
+          else
             tr
               each item in value
-                td #{item}
-
+                td(contenteditable="true") #{item}
   script
       include katalog.js      
 

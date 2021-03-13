@@ -58,3 +58,7 @@ th {
 tr:nth-child(even) {
     background-color: rgb(230, 230, 230);
 }
+
+#manufacturers {
+    width: 30%;
+}

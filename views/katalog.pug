@@ -7,6 +7,7 @@ html(lang='pl')
             include ./style.css
  body
   - data = data
+  - manufacturers = manufacturers
   div(class='app-container')
     button(onclick="location.href='katalog'" type='button') Importuj z pliku
     if data === undefined
@@ -24,6 +25,21 @@ html(lang='pl')
             tr
               each item in value
                 td(contenteditable="true") #{item}
+      
+      br
+      br
+      p Liczba laptopów według poszczególnych producentów:
+      table(id='manufacturers')
+        each [key, value] of manufacturers.entries()
+          if key == 'header'
+            tr(class='header')
+              each item in value
+                th #{item}
+          else
+            tr
+              td #{key}
+              td #{value}
+
   script
       include katalog.js      
 

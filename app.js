@@ -17,9 +17,9 @@ app.listen(PORT, function(error){
     if(error) {
         throw error;
     }
-    else {
-        printTable(load());
-    }
+    // else {
+    //     printTable(load());
+    // }
 });
 
 app.get('/katalog.txt', function(req, res) {
@@ -36,7 +36,7 @@ app.get('/katalog', (req, res) => {
 });
 
 app.post('/save', (req, res) => {
-    writeToFile(req.body);
+    writeToFile(req.body, res);
 });
 
 function load() {
@@ -50,7 +50,7 @@ function load() {
 	});
 }
 
-function writeToFile(data) {
+function writeToFile(data, res) {
     let textData = '';
     let isFirst = true;
     for (let row of data) {
@@ -66,7 +66,14 @@ function writeToFile(data) {
         }
     }
 
-    fs.writeFile(FILE, textData, () => console.log('Data saved'));
+    fs.writeFile(FILE, textData, (err) => {
+        if (err) {
+            throw err;
+        }
+        else {
+            console.log('Data has been saved to file: ' + FILE);
+        }
+    });
 }
 
 function csvToMap(csv) {
@@ -85,7 +92,6 @@ function csvToMap(csv) {
             row.forEach(item => item.trim());
             table.set(i, row);
         }
-        
     }
 
     return table;
@@ -110,6 +116,5 @@ function getManufacturerStats(table) {
         }
     });
 
-    console.log(manufacturers)
     return manufacturers;
 }

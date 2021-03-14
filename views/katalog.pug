@@ -23,9 +23,15 @@ html(lang='pl')
                 th #{item}
           else
             tr
+              - let i = -1
               each item in value
-                td(contenteditable="true") #{item}
-      
+                if i == -1
+                  td #{item}
+                else
+                  td(id=i oninput='validate(this,'+i+')' contenteditable="true") #{item}
+                - i++
+
+      button(onclick='add()') Dodaj nowy
       br
       br
       p Liczba laptopów według poszczególnych producentów:

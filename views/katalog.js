@@ -7,7 +7,7 @@ const VALIDATION_RULES = [
     /^[1-9][0-9]*"$/, //  1: display size
     /^[1-9][0-9]*x[1-9][0-9]*$/, // 2: screen resolution
     /^matowa$|^blyszczaca$/i, // 3: screen surface type
-    /^tak$|^nie$/i, // 4: touch screen
+    /^tak$|^nie$/, // 4: touch screen
     ANY, // 5: cpu
     INTEGER, // 6: number of cores
     INTEGER, // 7: cpu freq
@@ -15,32 +15,40 @@ const VALIDATION_RULES = [
     SIZE_GB, // 9: drive size
     /^SSD$|^HDD$/i, // 10: drive type
     ANY, // 11: gpu
-    INTEGER, // 12: vram
+    SIZE_GB, // 12: vram
     ANY, // 13: os
     /^brak$|^Blu-Ray$|^DVD$/i // 14: optical drive type
 ];
 
-function save() {
+function save(fileType) {
     if(document.getElementsByClassName('error').length > 0) {
         alert('Dane nie mogą zostać wyeksportowane, ponieważ zawierają błędy.');
         return;
     }
+    
     let rows = document.getElementById('katalog').getElementsByTagName('tr')
     let data = [];
     let firstRow = true;
     let temp;
+    let emptyItemsCount;
     for (let row of rows) {
         if(firstRow) {
             firstRow = false;
         }
         else {
             temp = [];
+            emptyItemsCount = 0;
             for(let item of row.childNodes) {
                 if(item !== row.firstChild) {
+                    if(item.textContent === '')
+                        emptyItemsCount++;
+                    
                     temp.push(item.textContent);
                 }
             }
-            data.push(temp);
+            // omit if row is empty
+            if(emptyItemsCount != row.childNodes.length - 1)
+                data.push(temp);
         }
     }
 
@@ -50,14 +58,17 @@ function save() {
         body: JSON.stringify(data)
     };
 
-    fetch('save', options)
+    fetch(fileType === 'txt' ? 'save-txt' : 'save-xml', options)
         .then(response => {
-            if(!response.ok)
-                throw Error(response.statusText);
-            else 
-                window.confirm('Dane zostały eksportowane do pliku.');
+            if(!response.ok) {
+                alert('Eksport danych nie był możliwy.');
+            }
+            else  {
+                confirm('Dane zostały wyeksportowane do pliku.');
                 window.location.replace("/katalog");
-        });
+            }   
+        }
+    );
 }
 
 function validate(element, id) {
@@ -69,6 +80,7 @@ function validate(element, id) {
     }
 }
 
+// create new table row
 function add() {
     let catalog = document.getElementById('katalog').childNodes[0]; // tbody
     let newRow = catalog.lastChild.cloneNode(true);

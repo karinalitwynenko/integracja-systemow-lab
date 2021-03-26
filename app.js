@@ -1,25 +1,33 @@
 const express = require('express');
 const path = require('path');
 const fs = require('fs');
+const reader = require('./reader');
+const xmlParser = require('./xml-parser');
+
 const app = express();
-
-
 const PORT = 3000;
-const {COLUMNS, MANUFACTURER} = require('./columns');
-const FILE = 'katalog-test.txt';
+const TXT_FILE = 'katalog.txt';
+const XML_FILE = 'katalog.xml';
 
-eval(fs.readFileSync('text-file-reader.js') + '');
+const PRINT_IN_CONSOLE = false; // set true to print the table in the console when the server starts
+
+if(PRINT_IN_CONSOLE) {
+    eval(fs.readFileSync('console-reader.js') + '');
+}
 
 app.set('view engine', 'pug');
 
-app.use(express.json())
-app.listen(PORT, function(error){ 
+app.use(express.json());
+
+app.listen(PORT, function(error) { 
     if(error) {
         throw error;
     }
-    // else {
-    //     printTable(load());
-    // }
+    else if(PRINT_IN_CONSOLE) {
+        printTable(reader.load(FILE));
+    }
+
+    console.log("Server is listening on port " + PORT);
 });
 
 app.get('/katalog.txt', function(req, res) {
@@ -31,90 +39,14 @@ app.get('/', (req, res) => {
 });
 
 app.get('/katalog', (req, res) => {
-    let table = csvToMap(load());
-    res.render('katalog', { data: table, manufacturers: getManufacturerStats(table) });
+    let table = reader.textToMap(reader.load(TXT_FILE));
+    res.render('katalog', { data: table, manufacturers: reader.getManufacturerStats(table) });
 });
 
-app.post('/save', (req, res) => {
-    writeToFile(req.body, res);
+app.post('/save-txt', (req, res) => {
+    reader.writeToFile(TXT_FILE, req.body, res);
 });
 
-function load() {
-    return fs.readFileSync(FILE, 'utf8', function (err, data) {
-		if (err) {
-		    console.log(err);
-		}
-        else {
-            return data;
-        }
-	});
-}
-
-function writeToFile(data, res) {
-    let textData = '';
-    let isFirst = true;
-    for (let row of data) {
-        if(isFirst) {
-            isFirst = false;
-        }
-        else {
-            textData += '\n';
-        }
-
-        for (let item of row) {
-            textData += item + ";";
-        }
-    }
-
-    fs.writeFile(FILE, textData, (err) => {
-        if (err) {
-            throw err;
-        }
-        else {
-            console.log('Data has been saved to file: ' + FILE);
-        }
-    });
-}
-
-function csvToMap(csv) {
-    let rows = csv.split('\n');
-    let table = new Map();
-    let row;
-    for(let i = 0; i < rows.length + 1; i++) {
-        row = [];
-        if(i == 0) {
-            row = COLUMNS;
-            table.set(i, row);
-        }
-        else {
-            row[0] = i + '';
-            row = row.concat(rows[i - 1].split(';', COLUMNS.length - 1));
-            row.forEach(item => item.trim());
-            table.set(i, row);
-        }
-    }
-
-    return table;
-}
-
-function getManufacturerStats(table) {
-    let manufacturers = new Map();
-    manufacturers.set('header', ['Producent', 'Liczba laptopów']);
-    let isFirst = true;
-
-    table.forEach(row => {
-        if(isFirst) {
-            isFirst = false;
-            return;
-        }
-
-        if(manufacturers.get(row[MANUFACTURER]) === undefined) {
-            manufacturers.set(row[MANUFACTURER], 1);
-        }
-        else {
-            manufacturers.set(row[MANUFACTURER], manufacturers.get(row[MANUFACTURER]) + 1);
-        }
-    });
-
-    return manufacturers;
-}
+app.post('/save-xml', (req, res) => {
+    xmlParser.toXML(req.body, XML_FILE);
+});

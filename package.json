@@ -9,6 +9,7 @@
   "author": "Karina Litwynenko",
   "license": "ISC",
   "dependencies": {
+    "fast-xml-parser": "^3.19.0",
     "pug": "^3.0.2"
   }
 }

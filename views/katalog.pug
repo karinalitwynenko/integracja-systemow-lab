@@ -6,14 +6,15 @@ html(lang='pl')
         style
             include ./style.css
  body
-  - data = data
-  - manufacturers = manufacturers
   div(class='app-container')
-    button(onclick="location.href='katalog'" type='button') Importuj z pliku
+    button(onclick="location.href='katalog'" type='button') Importuj z TXT
+    button(type='button') Importuj z XML
+
     if data === undefined
       p Dane zostaną wyświetlone po zaimportowaniu
     else
-      button(onclick='save()') Eksportuj do pliku
+      button(onclick='save(\'txt\')') Eksportuj do TXT
+      button(onclick='save(\'xml\')') Eksportuj do XML
 
       table(id='katalog')
         each [key, value] of data.entries()
@@ -26,7 +27,7 @@ html(lang='pl')
               - let i = -1
               each item in value
                 if i == -1
-                  td #{item}
+                  td(class='index') #{item}
                 else
                   td(id=i oninput='validate(this,'+i+')' contenteditable="true") #{item}
                 - i++

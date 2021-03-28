@@ -6,8 +6,8 @@ const xmlParser = require('./xml-parser');
 
 const app = express();
 const PORT = 3000;
-const TXT_FILE = 'katalog.txt';
-const XML_FILE = 'katalog.xml';
+const TXT_FILE = 'data/katalog.txt';
+const XML_FILE = 'data/katalog.xml';
 
 const PRINT_IN_CONSOLE = false; // set true to print the table in the console when the server starts
 
@@ -24,14 +24,10 @@ app.listen(PORT, function(error) {
         throw error;
     }
     else if(PRINT_IN_CONSOLE) {
-        printTable(reader.load(FILE));
+        printTable(reader.read(FILE));
     }
 
     console.log("Server is listening on port " + PORT);
-});
-
-app.get('/katalog.txt', function(req, res) {
-    res.sendFile(path.resolve('./' + FILE));
 });
 
 app.get('/', (req, res) => {
@@ -39,8 +35,21 @@ app.get('/', (req, res) => {
 });
 
 app.get('/katalog', (req, res) => {
-    let table = reader.textToMap(reader.load(TXT_FILE));
-    res.render('katalog', { data: table, manufacturers: reader.getManufacturerStats(table) });
+    let dataArray;
+    if(req.query.fileType === 'txt') {
+        let textData = reader.read(TXT_FILE);
+        if(textData !== undefined)
+            dataArray = reader.textToArray(textData);
+    }
+    else if(req.query.fileType === 'xml') {
+        dataArray = xmlParser.readFromXML(XML_FILE);
+    }
+    
+    if(dataArray !== undefined)
+        res.render('katalog', { data: dataArray, manufacturers: reader.getManufacturerStats(dataArray) });
+    else {
+        res.render('katalog', {errorMessage: 'Wybrany plik nie istnieje.'});
+    }
 });
 
 app.post('/save-txt', (req, res) => {
@@ -48,5 +57,5 @@ app.post('/save-txt', (req, res) => {
 });
 
 app.post('/save-xml', (req, res) => {
-    xmlParser.toXML(req.body, XML_FILE);
+    xmlParser.writeToXML(req.body, XML_FILE, res);
 });

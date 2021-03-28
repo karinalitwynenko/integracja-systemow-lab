@@ -1,24 +1,25 @@
 module.exports = {
-    load,
+    read,
     writeToFile,
-    textToMap,
+    textToArray,
     getManufacturerStats
 };
 
 const fs = require('fs');
 
 const MANUFACTURER = 1;
-const COLUMNS = 'Lp.; nazwa producenta; przekątna ekranu; rozdzielczość ekranu; rodzaj powierzchni ekranu; czy ekran jest dotykowy; nazwa procesora; liczba rdzeni fizycznych; prędkość taktowania MHz; wielkość pamięci RAM; pojemność dysku; rodzaj dysku; nazwa układu graficznego; pamięć układu graficznego; nazwa systemu operacyjnego; rodzaj napędu fizycznego w komputerze'.split(';');
+const COLUMNS_COUNT = 16;
 
-function load(file) {
-    return fs.readFileSync(file, 'utf8', function (err, data) {
-		if (err) {
-		    console.log(err);
-		}
-        else {
-            return data;
-        }
-	});
+function read(file) {
+    let data;
+    try {
+        data = fs.readFileSync(file, 'utf8');
+    } 
+    catch (err) {
+        console.log(err);
+    }
+
+    return data;
 }
 
 function writeToFile(file, data, res) {
@@ -48,45 +49,36 @@ function writeToFile(file, data, res) {
     });
 }
 
-function textToMap(textData) {
+function textToArray(textData) {
     let rows = textData.split('\n');
-    let table = new Map();
+    let table = [];
     let row;
-    for(let i = 0; i < rows.length + 1; i++) {
-        row = [];
-        if(i == 0) {
-            row = COLUMNS;
-            table.set(i, row);
-        }
-        else {
-            row[0] = i + '';
-            row = row.concat(rows[i - 1].split(';', COLUMNS.length - 1));
-            row.forEach(item => item.trim());
-            table.set(i, row);
-        }
+    for(let i = 0; i < rows.length; i++) {
+        row = [(i + 1) + ''];
+        row = row.concat(rows[i].split(';', COLUMNS_COUNT - 1));
+        row.forEach(item => item.trim());
+        table[i] = row;
     }
 
     return table;
 }
 
-function getManufacturerStats(table) {
+function getManufacturerStats(dataArray) {
     let manufacturers = new Map();
     manufacturers.set('header', ['Producent', 'Liczba laptopów']);
-    let isFirst = true;
 
-    table.forEach(row => {
-        if(isFirst) {
-            isFirst = false;
-            return;
+    for(let i = 0; i < dataArray.length; i++) {
+        if(i == 0) {
+            continue;
         }
 
-        if(manufacturers.get(row[MANUFACTURER]) === undefined) {
-            manufacturers.set(row[MANUFACTURER], 1);
+        if(manufacturers.get(dataArray[i][MANUFACTURER]) === undefined) {
+            manufacturers.set(dataArray[i][MANUFACTURER], 1);
         }
         else {
-            manufacturers.set(row[MANUFACTURER], manufacturers.get(row[MANUFACTURER]) + 1);
-        }
-    });
+            manufacturers.set(dataArray[i][MANUFACTURER], manufacturers.get(dataArray[i][MANUFACTURER]) + 1);
+        }  
+    }
 
     return manufacturers;
 }  

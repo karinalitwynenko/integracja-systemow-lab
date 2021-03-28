@@ -26,30 +26,25 @@ function save(fileType) {
         return;
     }
     
-    let rows = document.getElementById('katalog').getElementsByTagName('tr')
+    let rows = document.getElementById('katalog').getElementsByTagName('tbody')[0].getElementsByTagName('tr')
     let data = [];
-    let firstRow = true;
     let temp;
     let emptyItemsCount;
+
     for (let row of rows) {
-        if(firstRow) {
-            firstRow = false;
-        }
-        else {
-            temp = [];
-            emptyItemsCount = 0;
-            for(let item of row.childNodes) {
-                if(item !== row.firstChild) {
-                    if(item.textContent === '')
-                        emptyItemsCount++;
-                    
-                    temp.push(item.textContent);
-                }
+        temp = [];
+        emptyItemsCount = 0;
+        for(let item of row.childNodes) {
+            if(item !== row.firstChild) {
+                if(item.textContent === '')
+                    emptyItemsCount++;
+                
+                temp.push(item.textContent);
             }
-            // omit if row is empty
-            if(emptyItemsCount != row.childNodes.length - 1)
-                data.push(temp);
         }
+        // omit if row is empty
+        if(emptyItemsCount != row.childNodes.length - 1)
+            data.push(temp);
     }
 
     const options = {
@@ -58,6 +53,7 @@ function save(fileType) {
         body: JSON.stringify(data)
     };
 
+
     fetch(fileType === 'txt' ? 'save-txt' : 'save-xml', options)
         .then(response => {
             if(!response.ok) {
@@ -65,7 +61,7 @@ function save(fileType) {
             }
             else  {
                 confirm('Dane zostały wyeksportowane do pliku.');
-                window.location.replace("/katalog");
+                window.location.replace("/katalog?fileType=" + fileType);
             }   
         }
     );
@@ -82,7 +78,7 @@ function validate(element, id) {
 
 // create new table row
 function add() {
-    let catalog = document.getElementById('katalog').childNodes[0]; // tbody
+    let catalog = document.getElementById('katalog').getElementsByTagName('tbody')[0];
     let newRow = catalog.lastChild.cloneNode(true);
     let index = parseInt(newRow.childNodes[0].textContent) + 1;
     newRow.childNodes.forEach(

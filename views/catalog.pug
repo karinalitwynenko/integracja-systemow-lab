@@ -8,8 +8,9 @@ html(lang='pl')
  body
   - columns = ["Lp.", " nazwa producenta", " przekątna ekranu", " rozdzielczość ekranu", " rodzaj powierzchni ekranu", " czy ekran jest dotykowy", " nazwa procesora", " liczba rdzeni fizycznych", " prędkość taktowania MHz", " wielkość pamięci RAM", " pojemność dysku", " rodzaj dysku", " nazwa układu graficznego", " pamięć układu graficznego", " nazwa systemu operacyjnego", " rodzaj napędu fizycznego w komputerze"];
   div(class='app-container')
-    button(onclick="location.href='katalog?fileType=txt'" type='button') Importuj z TXT
-    button(onclick="location.href='katalog?fileType=xml'" type='button') Importuj z XML
+    button(onclick="location.href='catalog?source=txt'" type='button') Importuj z TXT
+    button(onclick="location.href='catalog?source=xml'" type='button') Importuj z XML
+    button(onclick="location.href='catalog?source=db'" type='button') Importuj z bazy danych
 
     if data === undefined
       p(class='error-message') #{errorMessage}
@@ -17,6 +18,7 @@ html(lang='pl')
     else
       button(onclick='save(\'txt\')') Eksportuj do TXT
       button(onclick='save(\'xml\')') Eksportuj do XML
+      button(onclick='save(\'db\')') Eksportuj do bazy danych
 
       table(id='katalog')
         thead
@@ -49,5 +51,5 @@ html(lang='pl')
               td #{value}
 
   script
-      include katalog.js      
+      include catalog.js      
 

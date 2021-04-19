@@ -30,8 +30,7 @@ function createTable() {
         'os varchar(60),' + 
         'discReader varchar(20)' + 
         ')',
-        null,
-        (results) => console.log(results)
+        null
     );
 }
 

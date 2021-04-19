@@ -41,12 +41,12 @@ const options = {
     format: true,
     indentBy: "  ",
     supressEmptyNode: true,
-    parseAttributeValue : true,
+    parseAttributeValue : false, // parse attributes to float, integer, or boolean
+    parseNodeValue: false, // parse nodes to float, integer, or boolean
     ignoreAttributes : false,
-
 };
 
-function writeToXML(data, file, res) {
+function writeToXML(data, file, result) {
     var date = new Date();
     var datestring = 
         date.getFullYear() + "-" + 
@@ -113,8 +113,7 @@ function writeToXML(data, file, res) {
             throw err;
         }
         else {
-            console.log('Data has been saved to file: ' + file);
-            res.sendStatus(200);
+            result(200, 'Data has been saved to file: ' + file);
         }
     });
 }
@@ -130,6 +129,7 @@ function readFromXML(file) {
     let i = 1;
     let touch;
     let discType;
+    
     for(laptop of dataObj.laptops.laptop) {
         if(laptop.screen['@'] !== undefined) {
             touch = laptop.screen['@'].touch === 'yes' ? 'tak' : 'nie';
@@ -141,7 +141,7 @@ function readFromXML(file) {
         discType = laptop.disc['@'] !== undefined ? laptop.disc['@'].type : '';
         dataArray.push(
             [
-                i++,
+                (i++) + '',
                 laptop.manufacturer,
                 laptop.screen.size,
                 laptop.screen.resolution,

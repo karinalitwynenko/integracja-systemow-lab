@@ -1,0 +1,55 @@
+<html lang="pl">
+   <head>
+        <title>Integracja systemów</title>
+        <link rel="stylesheet" href="style.css">
+   </head>
+   <body>
+      <div class="app-container">
+         <button onclick="load('txt')">Importuj z TXT</button>
+         <button onclick="load('xml')">Importuj z XML</button>
+         <button onclick="load('db')">Importuj z bazy danych</button>
+
+         <button onclick="save('txt')">Eksportuj do TXT</button>
+         <button onclick="save('xml')">Eksportuj do XML</button>
+         <button onclick="save('db')">Eksportuj do bazy danych</button>
+         <p id='error-message'></p>
+         <p id='record-stats'></p>
+
+         <table id="catalog">
+            <thead>
+               <tr>
+                  <th>Lp.</th>
+                  <th> nazwa producenta</th>
+                  <th> przekątna ekranu</th>
+                  <th> rozdzielczość ekranu</th>
+                  <th> rodzaj powierzchni ekranu</th>
+                  <th> czy ekran jest dotykowy</th>
+                  <th> nazwa procesora</th>
+                  <th> liczba rdzeni fizycznych</th>
+                  <th> prędkość taktowania MHz</th>
+                  <th> wielkość pamięci RAM</th>
+                  <th> pojemność dysku</th>
+                  <th> rodzaj dysku</th>
+                  <th> nazwa układu graficznego</th>
+                  <th> pamięć układu graficznego</th>
+                  <th> nazwa systemu operacyjnego</th>
+                  <th> rodzaj napędu fizycznego w komputerze</th>
+               </tr>
+            </thead>
+            <tbody></tbody>
+         </table>
+         <button onclick="add()">Dodaj nowy</button><br><br>
+         <p>Liczba laptopów według poszczególnych producentów:</p>
+         <table id="manufacturers">
+            <thead>
+               <tr>
+                  <th>Producent</th>
+                  <th>Liczba laptopów</th>              
+               </tr>
+            </thead>
+            <tbody></tbody>
+         </table>
+      </div>
+      <script src='catalog.js'></script>
+   </body>
+</html>

@@ -22,7 +22,7 @@ function read(file) {
     return data;
 }
 
-function writeToFile(file, data, res) {
+function writeToFile(data, file, result) {
     let textData = '';
     let isFirst = true;
     for (let row of data) {
@@ -43,8 +43,7 @@ function writeToFile(file, data, res) {
             throw err;
         }
         else {
-            console.log('Data has been saved to file: ' + file);
-            res.sendStatus(200);
+            result(200, 'Data has been saved to file: ' + file);
         }
     });
 }
@@ -59,19 +58,16 @@ function textToArray(textData) {
         row.forEach(item => item.trim());
         table[i] = row;
     }
-
     return table;
 }
 
 function getManufacturerStats(dataArray) {
+    if(!dataArray || dataArray.length === 0)
+        return;
+
     let manufacturers = new Map();
-    manufacturers.set('header', ['Producent', 'Liczba laptopów']);
 
     for(let i = 0; i < dataArray.length; i++) {
-        if(i == 0) {
-            continue;
-        }
-
         if(manufacturers.get(dataArray[i][MANUFACTURER]) === undefined) {
             manufacturers.set(dataArray[i][MANUFACTURER], 1);
         }

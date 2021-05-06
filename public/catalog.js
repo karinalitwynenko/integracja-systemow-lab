@@ -59,7 +59,7 @@ function save(target) {
         body: JSON.stringify(data)
     };
 
-    fetch('save?target=' + target, options)
+    fetch('save/' + target, options)
         .then(response => {
             if(!response.ok) {
                 alert('Eksport danych nie był możliwy.');
@@ -103,7 +103,7 @@ function add() {
     }
 }
 
-function load(source, compare) {
+function load(source, compare = true) {
     fetch('catalog/' + source, {method: 'GET'})
     .then(response => response.json())
     .then((newData) => {
@@ -125,8 +125,9 @@ function load(source, compare) {
     })
     .catch(error => {
         document.getElementById('error-message').textContent = 'Dane nie mogły zostać załadowane.';
+        document.getElementById('record-stats').innerHTML = '';
         clearTables();
-        currentData = null;
+        currentData = undefined;
     });
 
 }
@@ -140,18 +141,19 @@ function generateLaptopsTable(laptops) {
     for (let laptop of laptops) {
         row = document.createElement('tr');
         table.appendChild(row);
-        colIndex = 0;
+        colIndex = -1;
         for(let column of laptop) {
             item = document.createElement('td');
             item.textContent = column;
             row.appendChild(item);
-            colIndex++;
 
             if(column != laptop[0]) {
                 item.addEventListener('input', validate);
                 item.setAttribute('contenteditable', true);
                 item.setAttribute('data-col-index', colIndex);
             }
+
+            colIndex++;
         }
     }
 }
@@ -176,17 +178,8 @@ function generateManufacturersTable(manufacturers) {
 function highlightDuplicates(prevLaptops, newLaptops) {
     let duplicates = 0;
     let table = document.getElementById('catalog').getElementsByTagName('tbody')[0];
-    let f = false;
     for(let newLaptop of newLaptops) {
         for(let prevLaptop of prevLaptops) {
-            if(!f) {
-                console.log(JSON.stringify(newLaptop))
-                console.log(JSON.stringify(prevLaptop))
-                console.log(JSON.stringify('################'))
-                f = !f;
-            }
-            
-
             if(JSON.stringify(newLaptop) === JSON.stringify(prevLaptop)) {
                 duplicates++;
                 table.childNodes[newLaptop[0] - 1].classList.add('duplicate')

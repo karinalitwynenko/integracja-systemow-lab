@@ -21,7 +21,7 @@ router.get('/catalog/txt', (req, res) => {
         res.json({ laptops: laptopArray, manufacturers: Object.fromEntries(reader.getManufacturerStats(laptopArray)) });
     }
     else {
-        res.status(500);
+        res.sendStatus(404);
     }
 });
 
@@ -31,44 +31,48 @@ router.get('/catalog/xml', (req, res) => {
         res.json({ laptops: laptopArray, manufacturers: Object.fromEntries(reader.getManufacturerStats(laptopArray)) });
     }
     else {
-        res.status(500);
+        res.sendStatus(404);
     }
 });
 
 router.get('/catalog/db', (req, res) => {
     catalog.getAll((laptops) => {
-        res.json({ laptops: laptops, manufacturers: Object.fromEntries(reader.getManufacturerStats(laptops)) });
+        if(laptops !== undefined && laptops.length > 0) {
+            res.json({ laptops: laptops, manufacturers: Object.fromEntries(reader.getManufacturerStats(laptops)) });
+        }
+        else {
+            res.sendStatus(404);
+        }
     });
 });
 
-router.post('/save', (req, res) => {
-    if(req.query.target === 'txt') {
-        reader.writeToFile(req.body, TXT_FILE, (status, message) => {
-            console.log(message);
-            res.sendStatus(status);
-        });
-    }
-    else if(req.query.target === 'xml') {
-        xmlParser.writeToXML(req.body, XML_FILE, (status, message) => {
-            console.log(message);
-            res.sendStatus(status);
-        });
-    }
-    else if(req.query.target === 'db') {
-        catalog.deleteAll((success, message) => {
-            console.log(message)
-            if(success) {
-                catalog.saveAll(req.body, (status, message) => {
-                    console.log(message);
-                    res.sendStatus(status);
-                });
-            }
-            else {
-                console.log('Error: new records were not saved.')
-            }
-        });
-    }
+router.post('/save/txt', (req, res) => {
+    reader.writeToFile(req.body, TXT_FILE, (status, message) => {
+        console.log(message);
+        res.sendStatus(status);
+    });
 });
 
+router.post('/save/xml', (req, res) => {
+    xmlParser.writeToXML(req.body, XML_FILE, (status, message) => {
+        console.log(message);
+        res.sendStatus(status);
+    });
+});
+
+router.post('/save/db', (req, res) => {
+    catalog.deleteAll((success, message) => {
+        console.log(message)
+        if(success) {
+            catalog.saveAll(req.body, (status, message) => {
+                console.log(message);
+                res.sendStatus(status);
+            });
+        }
+        else {
+            console.log('Error: new records were not saved.')
+        }
+    });
+});
 
 module.exports = router;

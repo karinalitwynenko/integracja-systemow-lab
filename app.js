@@ -12,9 +12,8 @@ if(PRINT_IN_CONSOLE) {
 }
 
 app.use(express.json());
-app.use('/', routes);
 app.use(express.static('public'))
-
+app.use('/', routes);
 
 app.listen(PORT, function(error) { 
     if(error) {
@@ -23,7 +22,7 @@ app.listen(PORT, function(error) {
     else if(PRINT_IN_CONSOLE) {
         printTable(reader.read(FILE));
     }
-
+    
     db.createTable();
     console.log("Server is listening on port " + PORT);
 });

@@ -6,15 +6,15 @@ function getAll(result) {
         let laptopArray = [];
         for(laptop of laptops) {
             laptopArray.push([
-                i++,
+                (i++) + '',
                 laptop.manufacturer,
                 laptop.size,
                 laptop.resolution,
                 laptop.screenType,
                 laptop.touch,
                 laptop.processorName,
-                laptop.physicalCores,
-                laptop.clockSpeed,
+                laptop.physicalCores == 0 ? '' : laptop.physicalCores + '',
+                laptop.clockSpeed == 0 ? '' : laptop.clockSpeed + '',
                 laptop.ram,
                 laptop.storage,
                 laptop.discType,
@@ -41,7 +41,7 @@ function saveAll(laptops, result) {
         if(err)
             throw err;
         else {
-            result(200, 'Crated ' + laptops.length + ' new database records.')
+            result(200, 'Created ' + laptops.length + ' new database records.')
         }
     });
 }

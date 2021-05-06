@@ -1,12 +1,5 @@
 const mysql = require('mysql2');
-
-const config = { 
-    host: '127.0.0.1',
-    port: 3306,
-    user: 'root',
-    password: '',
-    database: 'catalog'
-};
+const config = require('../config/database-config');
 
 const connection = mysql.createConnection(config);
 

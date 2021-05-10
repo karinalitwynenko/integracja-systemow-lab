@@ -1,22 +1,22 @@
-const INTEGER = /^\d+$/;
-const SIZE_GB = /^[1-9][0-9]*GB$/;
-const ANY = /./;
+const INTEGER_RULE = /^\d+$/;
+const SIZE_GB_RULE = /^[1-9][0-9]*GB$/;
+const ANY_RULE = /./;
 
 const VALIDATION_RULES = [
-    ANY, // 0: manufacturer
+    ANY_RULE, // 0: manufacturer
     /^[1-9][0-9]*"$/, //  1: display size
     /^[1-9][0-9]*x[1-9][0-9]*$/, // 2: screen resolution
     /^matowa$|^blyszczaca$/i, // 3: screen surface type
     /^tak$|^nie$/, // 4: touch screen
-    ANY, // 5: cpu
-    INTEGER, // 6: number of cores
-    INTEGER, // 7: cpu freq
-    SIZE_GB, // 8: ram size
-    SIZE_GB, // 9: drive size
+    ANY_RULE, // 5: cpu
+    INTEGER_RULE, // 6: number of cores
+    INTEGER_RULE, // 7: cpu freq
+    SIZE_GB_RULE, // 8: ram size
+    SIZE_GB_RULE, // 9: drive size
     /^SSD$|^HDD$/i, // 10: drive type
-    ANY, // 11: gpu
-    SIZE_GB, // 12: vram
-    ANY, // 13: os
+    ANY_RULE, // 11: gpu
+    SIZE_GB_RULE, // 12: vram
+    ANY_RULE, // 13: os
     /^brak$|^Blu-Ray$|^DVD$/i // 14: optical drive type
 ];
 
@@ -59,7 +59,7 @@ function save(target) {
         body: JSON.stringify(data)
     };
 
-    fetch('save/' + target, options)
+    fetch('http://localhost:3000/save/' + target, options)
         .then(response => {
             if(!response.ok) {
                 alert('Eksport danych nie był możliwy.');
@@ -104,7 +104,7 @@ function add() {
 }
 
 function load(source, compare = true) {
-    fetch('catalog/' + source, {method: 'GET'})
+    fetch('http://localhost:3000/catalog/' + source, {method: 'GET'})
     .then(response => response.json())
     .then((newData) => {
         clearTables();

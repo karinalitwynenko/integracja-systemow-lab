@@ -1,0 +1,76 @@
+<html lang="pl">
+   <head>
+        <title>Integracja systemów</title>
+        <link rel="stylesheet" href="../style.css">
+   </head>
+   <body>
+      <div class="app-container">
+         <div class='group'>
+            Wybór producenta:
+            <select id="manufacturer-select">
+               <!-- <option value="Dell">Dell</option>
+               <option value="Asus">Asus</option>
+               <option value="Fujitsu">Fujitsu</option>
+               <option value="Huawei">Huawei</option>
+               <option value="MSI">MSI</option>
+               <option value="Samsung">Samsung</option>
+               <option value="Sony">Sony</option> -->
+            </select>
+            <button onclick='displayCountByManufacturer()'>Pokaż liczbę laptopów</button>
+            <p id='itemCountByManufacturer' class='item-count'></p>
+         </div>
+
+         <div class='group'>
+            Wybór typu matrycy:
+            <select id="screen-type-select">
+               <option value="any">dowolna</option>
+               <option value="matowa">matowa</option>
+               <option value="blyszczaca">błyszcząca</option>
+            </select>
+            <button onclick='displayByScreenType()'>Pokaż listę laptopów</button>
+         </div>
+
+         <div class='group'>
+            Wybór proporcji ekranu:
+            <select id="aspect-ratio-select">
+               <option value="16:9">16:9</option>
+               <option value="16:10">16:10</option>
+            </select>
+            <button onclick='displayCountByAspectRatio()'>Pokaż liczbę laptopów</button>
+            <p id='itemCountByAspectRatio' class='item-count'></p>
+         </div>
+
+         <p id='error-message'></p>
+         <p id='record-stats'></p>
+
+         <table id="catalog">
+            <thead>
+               <tr>
+                  <th>Lp.</th>
+                  <th>nazwa producenta</th>
+                  <th>przekątna ekranu</th>
+                  <th>rozdzielczość ekranu</th>
+                  <th>typ matrycy</th>
+                  <th>czy ekran jest dotykowy</th>
+                  <th>nazwa procesora</th>
+                  <th>liczba rdzeni fizycznych</th>
+                  <th>prędkość taktowania MHz</th>
+                  <th>wielkość pamięci RAM</th>
+                  <th>pojemność dysku</th>
+                  <th>rodzaj dysku</th>
+                  <th>nazwa układu graficznego</th>
+                  <th>pamięć układu graficznego</th>
+                  <th>nazwa systemu operacyjnego</th>
+                  <th>rodzaj napędu fizycznego w komputerze</th>
+               </tr>
+            </thead>
+            <tbody></tbody>
+         </table>
+      </div>
+      <script src='jquery-3.6.0.min.js'></script> 
+      <script src='jquery.soap.js'></script>
+      <script src='jquery.doedje.xml2json.js'></script>
+      <script src='catalog-service-soap.js'></script>
+      <script src='catalog-client.js'></script>
+   </body>
+</html>

@@ -1,6 +1,8 @@
 const express = require('express');
+const soap = require('soap');
 const routes = require('./routes/app-routes.js');
 const db = require('./services/db.js');
+const catalogSOAPService = require('./services/catalog-soap.js');
 
 const app = express();
 const PORT = 3000;
@@ -25,4 +27,16 @@ app.listen(PORT, function(error) {
     
     db.createTable();
     console.log("Server is listening on port " + PORT);
+
+    var xml = require('fs').readFileSync('catalog.wsdl', 'utf8');
+
+    var soapService = soap.listen(app, '/catalog-service', catalogSOAPService.catalogService, xml, function() {
+        console.log('soap initialized');
+    });
+
+    soapService.log = function(type, data) {
+        console.log('type ' + type);
+        console.log('data ' + data);
+    };
+
 });

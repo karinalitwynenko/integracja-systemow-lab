@@ -83,3 +83,19 @@ tr {
 .duplicate {
     background-color: #ffbbbb;
 }
+
+select {
+    font-size: 100%;
+}
+
+.group {
+    border: 1px solid black;
+    display: inline-block;
+    margin: 4px;
+    padding: 0 2px;
+}
+
+.item-count {
+    display: inline-block;
+    width: 19ch;
+}

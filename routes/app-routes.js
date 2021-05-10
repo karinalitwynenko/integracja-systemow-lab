@@ -11,14 +11,17 @@ const XML_FILE = './data/katalog.xml';
 const ERROR_NO_DATA = 'Wybrane źródło nie zawiera danych.';
 
 router.get('/', (req, res) => {
-    return res.redirect('/catalog.html');
+    return res.redirect('server/catalog-server.html');
 });
 
 router.get('/catalog/txt', (req, res) => {
     let textData = reader.read(TXT_FILE);
     if(textData !== undefined && textData !== '') {
         laptopArray = reader.textToArray(textData);
-        res.json({ laptops: laptopArray, manufacturers: Object.fromEntries(reader.getManufacturerStats(laptopArray)) });
+        res.json({ 
+            laptops: laptopArray, 
+            manufacturers: Object.fromEntries(reader.getManufacturerStats(laptopArray)) 
+        });
     }
     else {
         res.sendStatus(404);
@@ -28,7 +31,10 @@ router.get('/catalog/txt', (req, res) => {
 router.get('/catalog/xml', (req, res) => {
     laptopArray = xmlParser.readFromXML(XML_FILE);
     if(laptopArray && laptopArray.length != 0) {
-        res.json({ laptops: laptopArray, manufacturers: Object.fromEntries(reader.getManufacturerStats(laptopArray)) });
+        res.json({ 
+            laptops: laptopArray, 
+            manufacturers: Object.fromEntries(reader.getManufacturerStats(laptopArray)) 
+        });
     }
     else {
         res.sendStatus(404);
@@ -38,7 +44,10 @@ router.get('/catalog/xml', (req, res) => {
 router.get('/catalog/db', (req, res) => {
     catalog.getAll((laptops) => {
         if(laptops !== undefined && laptops.length > 0) {
-            res.json({ laptops: laptops, manufacturers: Object.fromEntries(reader.getManufacturerStats(laptops)) });
+            res.json({ 
+                laptops: laptops, 
+                manufacturers: Object.fromEntries(reader.getManufacturerStats(laptops)) 
+            });
         }
         else {
             res.sendStatus(404);

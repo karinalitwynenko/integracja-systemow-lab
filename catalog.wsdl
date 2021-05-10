@@ -1,0 +1,120 @@
+<definitions name="Catalog"
+   xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
+   xmlns:tns="http://localhost/Catalog">
+
+   <types>
+       <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" version="1.0" targetNamespace="http://jaxb.dev.java.net/array">
+            <xs:complexType name="manufacturerList" final="#all">
+                <xs:sequence>
+                    <xs:element name="manufacturer" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+                </xs:sequence>
+            </xs:complexType>
+        </xs:schema>
+   </types>
+
+   <message name="GetManufacturersRequest"></message>
+   <message name="GetManufacturersResponse">
+      <part name="manufacturers" type = "xsd:string[]"/>
+   </message>
+
+   <message name="GetCountByManufacturerRequest">
+      <part name="manufacturer" type="xsd:string"/>
+   </message>
+
+   <message name="GetCountByManufacturerResponse">
+      <part name="itemCount" type="xsd:int"/>
+   </message>
+
+   <message name="GetByScreenTypeRequest">
+      <part name="screenType" type="xsd:string"/>
+   </message>
+
+   <message name="GetByScreenTypeResponse">
+      <part name="screenType" type="xsd:string"/>
+   </message>
+
+   <message name="GetCountByAspectRatioRequest">
+      <part name="AspectRatio" type="xsd:string"/>
+   </message>
+
+   <message name="GetCountByAspectRatioResponse">
+      <part name="itemCount" type="xsd:int"/>
+   </message>
+
+   <portType name = "CatalogPort">
+      <operation name = "GetManufacturers">
+         <input message = "GetManufacturersRequest"/>
+         <output message = "GetManufacturersResponse"/>
+      </operation>
+
+      <operation name = "GetCountByManufacturer">
+         <input message = "GetCountByManufacturerRequest"/>
+         <output message = "GetCountByManufacturerResponse"/>
+      </operation>
+
+      <operation name = "GetByScreenType">
+         <input message = "GetByScreenTypeRequest"/>
+         <output message = "GetByScreenTypeResponse"/>
+      </operation>
+
+      <operation name = "GetCountByAspectRatio">
+         <input message = "GetCountByAspectRatioRequest"/>
+         <output message = "GetCountByAspectRatioResponse"/>
+      </operation>
+   </portType>
+
+   <binding name = "CatalogBinding" type = "CatalogPort">
+      <soap:binding style = "document"
+         transport = "http://schemas.xmlsoap.org/soap/http"/>
+
+      <operation name = "GetManufacturers">
+         <soap:operation soapAction = "GetManufacturers"/>
+         <input>
+            <soap:body use = "literal"/>
+         </input>
+		
+         <output>
+            <soap:body use = "literal"/>
+         </output>
+      </operation>
+
+      <operation name = "GetCountByManufacturer">
+         <soap:operation soapAction = "GetCountByManufacturer"/>
+         <input>
+            <soap:body use = "literal"/>
+         </input>
+		
+         <output>
+            <soap:body use = "literal"/>
+         </output>
+      </operation>
+
+      <operation name = "GetByScreenType">
+         <soap:operation soapAction = "GetByScreenType"/>
+         <input>
+            <soap:body use = "literal"/>
+         </input>
+		
+         <output>
+            <soap:body use = "literal"/>
+         </output>
+      </operation>
+
+      <operation name = "GetCountByAspectRatio">
+         <soap:operation soapAction = "GetCountByAspectRatio"/>
+         <input>
+            <soap:body use = "literal"/>
+         </input>
+		
+         <output>
+            <soap:body use = "literal"/>
+         </output>
+      </operation>
+   </binding>
+
+   <service name="CatalogService">   
+    <port name="CatalogPort" binding="CatalogBinding">     
+    	<soap:address location="http://localhost:3000/catalog-service"/>
+    </port>
+   </service>
+</definitions>

@@ -10,6 +10,7 @@
   "license": "ISC",
   "dependencies": {
     "fast-xml-parser": "^3.19.0",
-    "mysql2": "^2.2.5"
+    "mysql2": "^2.2.5",
+    "soap": "^0.37.0"
   }
 }

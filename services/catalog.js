@@ -5,7 +5,7 @@ function getAll(result) {
         let i = 1;
         let laptopArray = [];
         for(laptop of laptops) {
-            pushLaptop(laptop, laptopArray, (i++));
+            pushLaptop(laptop, laptopArray, (i++), false);
         }
         result(laptopArray)
     });
@@ -23,16 +23,17 @@ function getManufacturers(result) {
 }
 
 function getCountByScreenResolution(resolutions, result) {
-    db.connection.query('select count(*) as itemCount from laptops where resolution in (' + resolutions + ')', function(err, res, fields) {
-        console.log(res)
-        result(res[0].itemCount);
-    });
+    db.connection.query('select count(*) as itemCount from laptops ' + 
+                        'where resolution in (' + resolutions + ')', 
+                        function(err, res, fields) {result(res[0].itemCount)}
+                    );
 }
 
 function getCountByManufacturer(manufacturer, result) {
-    db.connection.query('select count(*) as itemCount from laptops where manufacturer = \'' + manufacturer + '\'', function(err, res, fields) {
-        result(res[0].itemCount);
-    });
+    db.connection.query('select count(*) as itemCount from laptops ' +
+                        'where manufacturer = \'' + manufacturer + '\'', 
+                        function(err, res, fields) {result(res[0].itemCount)}
+                    );
 }
 
 function getByScreenType(screenType, result) {
@@ -43,7 +44,7 @@ function getByScreenType(screenType, result) {
         let i = 1;
         let laptopArray = [];
         for(laptop of laptops) {
-            pushLaptop(laptop, laptopArray, (i++));
+            pushLaptop(laptop, laptopArray, (i++), true);
         }
         result(laptopArray)
     });
@@ -77,8 +78,8 @@ function deleteAll(result) {
     });
 }
 
-function pushLaptop(laptop, array, index) {
-    array.push([
+function pushLaptop(laptop, array, index, wrap = false) {
+    let laptopItem = [
         index + '',
         laptop.manufacturer,
         laptop.size,
@@ -95,7 +96,14 @@ function pushLaptop(laptop, array, index) {
         laptop.vram,
         laptop.os,
         laptop.discReader
-    ]);
+    ];
+
+    if(wrap) {
+        array.push({item: laptopItem});
+    }
+    else {
+        array.push(laptopItem);
+    }
 }
 
 module.exports = {

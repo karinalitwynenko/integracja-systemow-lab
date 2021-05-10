@@ -3,18 +3,25 @@
    xmlns:tns="http://localhost/Catalog">
 
    <types>
-       <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" version="1.0" targetNamespace="http://jaxb.dev.java.net/array">
-            <xs:complexType name="manufacturerList" final="#all">
+      <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" version="1.0" targetNamespace="http://localhost/array">
+            <xs:complexType name="stringArray">
                 <xs:sequence>
-                    <xs:element name="manufacturer" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+                    <xs:element name="item" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
                 </xs:sequence>
             </xs:complexType>
-        </xs:schema>
+      </xs:schema>
+      <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" version="1.0" targetNamespace="http://localhost/list">
+         <xs:complexType name="laptopList">
+               <xs:sequence>
+                  <xs:element name="laptop" type="tns:stringArray" minOccurs="0" maxOccurs="unbounded"/>
+               </xs:sequence>
+         </xs:complexType>
+      </xs:schema>
    </types>
 
    <message name="GetManufacturersRequest"></message>
    <message name="GetManufacturersResponse">
-      <part name="manufacturers" type = "xsd:string[]"/>
+      <part name="manufacturers" type = "tns:stringArray"/>
    </message>
 
    <message name="GetCountByManufacturerRequest">
@@ -30,7 +37,7 @@
    </message>
 
    <message name="GetByScreenTypeResponse">
-      <part name="screenType" type="xsd:string"/>
+      <part name="laptops" type="tns:laptopList"/>
    </message>
 
    <message name="GetCountByAspectRatioRequest">

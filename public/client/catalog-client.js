@@ -3,43 +3,25 @@ window.onload = function loadManufacturers() {
         ...CatalogService.GetManufacturers(),
         success: function (soapResponse) {
             let select = document.getElementById('manufacturer-select');
-            console.log(getSoapBody(soapResponse.toJSON()).GetManufacturersResponse)
             let manufacturers = getSoapBody(soapResponse.toJSON()).GetManufacturersResponse.manufacturers;
-            for(let item of manufacturers.manufacturer) {
-                let option = document.createElement("option");
-                option.value = item['#text'];
-                option.text = item['#text'];
-                select.appendChild(option);
+            if(manufacturers != undefined && manufacturers.manufacturer != undefined && manufacturers.manufacturer.length != 0) {
+                for(let item of manufacturers.manufacturer) {
+                    let option = document.createElement("option");
+                    option.value = item['#text'];
+                    option.text = item['#text'];
+                    select.appendChild(option);
+                }
+            }
+            else {
+                document.getElementById('general-error-message').innerHTML = 
+                    'Brak danych o producentach. Wystąpił błąd lub źródło nie zawiera danych.';
             }
         },
         error: function (SOAPResponse) {
-            console.log(SOAPResponse.toString());
+            document.getElementById('manufacturer-group-error-message').innerHTML =
+                'Brak danych o producentach. Wystąpił błąd lub źródło nie zawiera danych.';
         }
     });
-}
-
-function generateLaptopsTable(laptops) {
-    let table = document.getElementById('catalog').getElementsByTagName('tbody')[0];
-    let row;
-    let item;
-    let colIndex;
-
-    for (let laptop of laptops) {
-        row = document.createElement('tr');
-        table.appendChild(row);
-        colIndex = -1;
-        for(let column of laptop.laptop) {
-            item = document.createElement('td');
-            item.textContent = column['#text'];
-            row.appendChild(item);
-
-            if(column != laptop[0]) {
-                item.setAttribute('data-col-index', colIndex);
-            }
-
-            colIndex++;
-        }
-    }
 }
 
 function displayCountByManufacturer() {
@@ -52,9 +34,8 @@ function displayCountByManufacturer() {
             let data = getSoapBody(soapResponse.toJSON()).GetCountByManufacturerResponse.itemCount['#text'];
             document.getElementById('itemCountByManufacturer').innerHTML = 'Liczba laptopów: ' + data;            
         },
-        error: function (SOAPResponse) {
-            console.log(SOAPResponse.toString());
-
+        error: function (soapResponse) {
+            document.getElementById('general-error-message').innerHTML = 'Wystąpił błąd przy pobieraniu danych.';
         }
     });
 }
@@ -68,11 +49,9 @@ function displayCountByAspectRatio() {
         success: function (soapResponse) {
             let data = getSoapBody(soapResponse.toJSON()).GetCountByAspectRatioResponse.itemCount['#text'];
             document.getElementById('itemCountByAspectRatio').innerHTML = 'Liczba laptopów: ' + data;            
-        
-            console.log(data);
         },
-        error: function (SOAPResponse) {
-            console.log(SOAPResponse.toString());
+        error: function (soapResponse) {
+            document.getElementById('general-error-message').innerHTML = 'Wystąpił błąd przy pobieraniu danych.';
         }
     });
 }
@@ -84,16 +63,13 @@ function displayByScreenType() {
     $.soap({
         ...CatalogService.GetByScreenType(screenType),
         success: function (soapResponse) {
-            console.log(soapResponse.toJSON());
-            let data = getSoapBody(soapResponse.toJSON()).GetByScreenTypeResponse.laptop;
-            console.log(data);
+            let data = getSoapBody(soapResponse.toJSON()).GetByScreenTypeResponse.laptops;
             clearTable();
             generateLaptopsTable(data);
             document.getElementById('error-message').textContent = '';
-            
         },
-        error: function (SOAPResponse) {
-            console.log(SOAPResponse.toString());
+        error: function (soapResponse) {
+            document.getElementById('general-error-message').innerHTML = 'Wystąpił błąd przy pobieraniu danych.';
         }
     });
 }
@@ -105,4 +81,20 @@ function clearTable() {
 
 function getSoapBody(json) {
     return json['#document']['soap:Envelope']['soap:Body'];
+}
+
+function generateLaptopsTable(laptops) {
+    let table = document.getElementById('catalog').getElementsByTagName('tbody')[0];
+    let row;
+    let item;
+
+    for (let laptop of laptops.laptop) {
+        row = document.createElement('tr');
+        table.appendChild(row);
+        for(let column of laptop.item) {
+            item = document.createElement('td');
+            item.textContent = column['#text'];
+            row.appendChild(item);
+        }
+    }
 }

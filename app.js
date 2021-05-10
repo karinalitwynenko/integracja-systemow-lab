@@ -31,12 +31,10 @@ app.listen(PORT, function(error) {
     var xml = require('fs').readFileSync('catalog.wsdl', 'utf8');
 
     var soapService = soap.listen(app, '/catalog-service', catalogSOAPService.catalogService, xml, function() {
-        console.log('soap initialized');
+        console.log('SOAP service initialized');
     });
 
-    soapService.log = function(type, data) {
-        console.log('type ' + type);
-        console.log('data ' + data);
-    };
+    // implement to display SOAP service logs
+    //soapService.log = function(type, data) { };
 
 });

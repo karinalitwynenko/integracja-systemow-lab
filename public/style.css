@@ -24,6 +24,7 @@ button {
 }
 
 table {
+    margin-top: 2%;
     text-align: center;
     border-collapse: collapse;
 }
@@ -98,4 +99,8 @@ select {
 .item-count {
     display: inline-block;
     width: 19ch;
+}
+
+#general-error-message {
+    color: red;
 }

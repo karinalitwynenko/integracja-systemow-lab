@@ -2,7 +2,6 @@ const catalog = require('./catalog');
 
 const catalogService = {
     CatalogService: {
-
         CatalogPort: {
 
             GetManufacturers: function(args, callback) {
@@ -20,8 +19,10 @@ const catalogService = {
             },
 
             GetByScreenType: function(args, callback) {
-                catalog.getByScreenType(args.screenType, latpops => callback({
-                    laptop: latpops
+                catalog.getByScreenType(args.screenType, laptops => callback({
+                    laptops: {
+                        laptop: laptops
+                    }
                 }));
             },
             

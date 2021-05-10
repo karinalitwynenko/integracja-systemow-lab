@@ -5,17 +5,10 @@
    </head>
    <body>
       <div class="app-container">
+         <p id='general-error-message'></p>
          <div class='group'>
             Wybór producenta:
-            <select id="manufacturer-select">
-               <!-- <option value="Dell">Dell</option>
-               <option value="Asus">Asus</option>
-               <option value="Fujitsu">Fujitsu</option>
-               <option value="Huawei">Huawei</option>
-               <option value="MSI">MSI</option>
-               <option value="Samsung">Samsung</option>
-               <option value="Sony">Sony</option> -->
-            </select>
+            <select id="manufacturer-select"></select>
             <button onclick='displayCountByManufacturer()'>Pokaż liczbę laptopów</button>
             <p id='itemCountByManufacturer' class='item-count'></p>
          </div>
@@ -39,9 +32,6 @@
             <button onclick='displayCountByAspectRatio()'>Pokaż liczbę laptopów</button>
             <p id='itemCountByAspectRatio' class='item-count'></p>
          </div>
-
-         <p id='error-message'></p>
-         <p id='record-stats'></p>
 
          <table id="catalog">
             <thead>

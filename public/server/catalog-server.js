@@ -65,7 +65,7 @@ function save(target) {
                 alert('Eksport danych nie był możliwy.');
             }
             else  {
-                confirm('Dane zostały wyeksportowane.');
+                alert('Dane zostały wyeksportowane.');
                 load(target, false);
             }   
         }

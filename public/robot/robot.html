@@ -1,0 +1,106 @@
+<html lang="pl">
+   <head>
+        <title>Integracja systemów - automat</title>
+        <link rel="stylesheet" href="../style.css">
+   </head>
+   <body>
+      <div class="app-container">
+        
+        <div>Który rekord ma zostać zmodyfikowany? <input type="text" id='row-index-input'></div>
+                
+        <table>
+            <thead>
+               <tr>
+                   <td>Cecha</td>
+                   <td>Czy zmodyfikować?</td>
+                   <td>Wartość</td>
+               </tr>
+            </thead>
+            <tbody id='parameters'>
+                <tr>
+                    <td>Nazwa producenta</td>
+                    <td><input type="checkbox"></td>
+                    <td><input type="text"></td>
+                </tr>
+                <tr>
+                    <td>Przekątna ekranu</td>
+                    <td><input type="checkbox"></td>
+                    <td><input type="text"></td>
+                </tr>
+                <tr>
+                    <td>Rozdzielczość ekranu</td>
+                    <td><input type="checkbox"></td>
+                    <td><input type="text"></td>
+                </tr>
+                <tr>
+                    <td>Typ matrycy</td>
+                    <td><input type="checkbox"></td>
+                    <td><input type="text"></td>
+                </tr>
+                <tr>
+                    <td>Czy ekran jest dotykowy</td>
+                    <td><input type="checkbox"></td>
+                    <td><input type="text"></td>
+                </tr>
+                <tr>
+                    <td>Nazwa procesora</td>
+                    <td><input type="checkbox"></td>
+                    <td><input type="text"></td>
+                </tr>
+                <tr>
+                    <td>Liczba rdzeni fizycznych</td>
+                    <td><input type="checkbox"></td>
+                    <td><input type="text"></td>
+                </tr>
+                <tr>
+                    <td>Prędkość taktowania MHz</td>
+                    <td><input type="checkbox"></td>
+                    <td><input type="text"></td>
+                </tr>
+                <tr>
+                    <td>Wielkość pamięci RAM</td>
+                    <td><input type="checkbox"></td>
+                    <td><input type="text"></td>
+                </tr>
+                <tr>
+                    <td>Pojemność dysku</td>
+                    <td><input type="checkbox"></td>
+                    <td><input type="text"></td>
+                </tr>
+                <tr>
+                    <td>Rodzaj dysku</td>
+                    <td><input type="checkbox"></td>
+                    <td><input type="text"></td>
+                </tr>
+                <tr>
+                    <td>Nazwa układu graficznego</td>
+                    <td><input type="checkbox"></td>
+                    <td><input type="text"></td>
+                </tr>
+                <tr>
+                    <td>Pamięć układu graficznego</td>
+                    <td><input type="checkbox"></td>
+                    <td><input type="text"></td>
+                </tr>
+                <tr>
+                    <td>Nazwa systemu operacyjnego</td>
+                    <td><input type="checkbox"></td>
+                    <td><input type="text"></td>
+                </tr>
+                <tr>
+                    <td>Rodzaj napędu fizycznego w komputerze</td>
+                    <td><input type="checkbox"></td>
+                    <td><input type="text"></td>
+                </tr>
+                <tr>
+                    <td>Czy wykonać dodatkowy zapis do XML?</td>
+                    <td><input type="checkbox"></td>
+                    <td></td>
+                </tr>
+            </tbody>  
+        </table>
+        <button onclick='run()'>Wykonaj</button>
+      </div>
+      <script src='robot-config.js'></script>
+   </body>
+</html>

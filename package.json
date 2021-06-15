@@ -9,8 +9,11 @@
   "author": "Karina Litwynenko",
   "license": "ISC",
   "dependencies": {
+    "chromedriver": "^90.0.1",
+    "express": "^4.17.1",
     "fast-xml-parser": "^3.19.0",
     "mysql2": "^2.2.5",
+    "selenium-webdriver": "^4.0.0-beta.3",
     "soap": "^0.37.0"
   }
 }

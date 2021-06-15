@@ -62,10 +62,9 @@ function textToArray(textData) {
 }
 
 function getManufacturerStats(dataArray) {
-    if(!dataArray || dataArray.length === 0)
-        return;
-
     let manufacturers = new Map();
+    if(!dataArray || dataArray.length === 0)
+        return manufacturers;
 
     for(let i = 0; i < dataArray.length; i++) {
         if(manufacturers.get(dataArray[i][MANUFACTURER]) === undefined) {

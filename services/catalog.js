@@ -4,9 +4,13 @@ function getAll(result) {
     db.connection.query('select * from laptops', function(err, laptops, fields) {
         let i = 1;
         let laptopArray = [];
-        for(laptop of laptops) {
-            pushLaptop(laptop, laptopArray, (i++), false);
+
+        if(laptops) {
+            for(laptop of laptops) {
+                pushLaptop(laptop, laptopArray, (i++), false);
+            }
         }
+    
         result(laptopArray)
     });
 }
@@ -15,9 +19,9 @@ function getManufacturers(result) {
     db.connection.query("select distinct manufacturer from laptops " +
                         "where manufacturer != ''", 
                         function(err, manufacturers, fields) {
-                            result(
-                                manufacturers.map(element => element.manufacturer)
-                            )
+                            if(!err) {
+                                result(manufacturers.map(element => element.manufacturer))  
+                            }
                         }
                     );
 }

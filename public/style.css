@@ -5,12 +5,12 @@ html, body {
 }
 
 body {
-    padding: 6vh 0;
+    padding: 2vh 0;
 }
 
 .app-container {
     margin: auto;
-    width: 94%;
+    width: 98%;
 }
 
 button {
@@ -45,12 +45,12 @@ tr {
 td {
     border: 1px solid rgb(63, 63, 63);
     cursor: text;
-    padding: 0.8vh 0.6vw;
+    padding: 0.8vh 0.1vw;
 }
 
 th {
     border: 1px solid rgb(63, 63, 63);
-    padding: 0.8vh 0.6vw;
+    padding: 0.8vh 0.1vw;
     color: black;
     text-transform: capitalize;
     cursor: default;

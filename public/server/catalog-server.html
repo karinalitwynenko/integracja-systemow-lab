@@ -5,13 +5,13 @@
    </head>
    <body>
       <div class="app-container">
-         <button onclick="load('txt')">Importuj z TXT</button>
+         <button name='importFromTXT' onclick="load('txt')">Importuj z TXT</button>
          <button onclick="load('xml')">Importuj z XML</button>
          <button onclick="load('db')">Importuj z bazy danych</button>
 
          <button onclick="save('txt')">Eksportuj do TXT</button>
-         <button onclick="save('xml')">Eksportuj do XML</button>
-         <button onclick="save('db')">Eksportuj do bazy danych</button>
+         <button name='exportToXML' onclick="save('xml')">Eksportuj do XML</button>
+         <button name='exportToDB' onclick="save('db')">Eksportuj do bazy danych</button>
          <p id='error-message'></p>
          <p id='record-stats'></p>
 

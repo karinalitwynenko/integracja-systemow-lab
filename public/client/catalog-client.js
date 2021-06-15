@@ -18,8 +18,8 @@ window.onload = function loadManufacturers() {
             }
         },
         error: function (SOAPResponse) {
-            document.getElementById('manufacturer-group-error-message').innerHTML =
-                'Brak danych o producentach. Wystąpił błąd lub źródło nie zawiera danych.';
+            document.getElementById('general-error-message').innerHTML =
+                'Brak danych o producentach. Wystąpił błąd podczas pobierania danych.';
         }
     });
 }

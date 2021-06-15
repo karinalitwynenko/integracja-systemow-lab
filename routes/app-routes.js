@@ -5,6 +5,8 @@ const xmlParser = require('../xml-parser');
 const db = require('../services/db');
 const catalog = require('../services/catalog');
 
+const test = require('../robot')
+
 const TXT_FILE = './data/katalog.txt';
 const XML_FILE = './data/katalog.xml';
 
@@ -12,6 +14,11 @@ const ERROR_NO_DATA = 'Wybrane źródło nie zawiera danych.';
 
 router.get('/', (req, res) => {
     return res.redirect('server/catalog-server.html');
+});
+
+router.post('/runAutomatedTask', (req, res) => {
+    test.runAutomatedTask(req.body);
+    res.status(200);
 });
 
 router.get('/catalog/txt', (req, res) => {
@@ -43,15 +50,10 @@ router.get('/catalog/xml', (req, res) => {
 
 router.get('/catalog/db', (req, res) => {
     catalog.getAll((laptops) => {
-        if(laptops !== undefined && laptops.length > 0) {
-            res.json({ 
-                laptops: laptops, 
-                manufacturers: Object.fromEntries(reader.getManufacturerStats(laptops)) 
-            });
-        }
-        else {
-            res.sendStatus(404);
-        }
+        res.json({ 
+            laptops: laptops, 
+            manufacturers: Object.fromEntries(reader.getManufacturerStats(laptops)) 
+        });
     });
 });
 

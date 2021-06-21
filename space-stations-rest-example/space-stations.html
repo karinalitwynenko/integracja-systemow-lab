@@ -1,0 +1,43 @@
+<html lang="pl">
+   <head>
+      <meta charset="UTF-8">
+      <title>List of space stations</title>
+      <link rel="stylesheet" href="style.css">
+   </head>
+   <body>
+      <h1>List of space stations</h1>
+      <div class='app-container'>
+         <div class='filters'>
+            <span class='filters-label'>Filters</span>
+            <div class='filter-group'>
+               Status:
+               <label><input type="checkbox" id="active" name="status" checked>Active</label>
+               <label><input type="checkbox" id="de-orbited" name="status" checked>De-Orbited</label>
+               <label><input type="checkbox" id="abandoned" name="status" checked>Abandoned</label>
+            </div>
+
+            <div class='filter-group'>
+               Type:
+               <label><input type="checkbox" id="government" name="type" checked>Government</label>
+               <label><input type="checkbox" id="commercial" name="type" checked>Commercial</label>
+            </div>
+
+            <div class='filter-group'>
+               Sort by:
+               <select id="sort" class="sort">
+                  <option value="name">Name</option>
+                  <option value="founded">Founded date</option>
+                  <option value="deorbited">Deorbited date</option>
+               </select>
+            </div>
+         </div>
+         <p id='data-source'>Data source: <a href='https://ll.thespacedevs.com/2.2.0/spacestation/'>ll.thespacedevs.com/2.2.0/spacestation/</a></p>
+         <p id='record-count'>Records found: 0</p>
+
+         <div class='grid-container'></div>
+      </div>
+      
+      <script src='jquery-3.6.0.min.js'></script> 
+      <script src='script.js'></script>
+   </body>
+</html>
